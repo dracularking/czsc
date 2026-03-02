@@ -1,0 +1,155 @@
+# -*- coding: utf-8 -*-
+"""
+获取真实股票数据并进行缠论分析
+
+使用 yfinance 获取A股数据
+"""
+import yfinance as yf
+import pandas as pd
+from datetime import datetime, timedelta
+from czsc import CZSC, Freq, format_standard_kline
+from czsc.utils.echarts_plot import kline_pro
+
+
+def get_stock_data(symbol="603259.SS", name="药明康德", days=90):
+    """从雅虎财经获取股票数据"""
+    print(f"\n{'='*60}")
+    print(f"获取股票数据: {name} ({symbol})")
+    print(f"{'='*60}\n")
+    
+    try:
+        # 禁用缓存
+        yf.set_tz_cache_location(None)
+        
+        # 下载数据
+        ticker = yf.Ticker(symbol)
+        df = ticker.history(period=f"{days}d", auto_adjust=False)
+        
+        if df.empty:
+            print("✗ 未获取到数据")
+            return None
+        
+        # 重置索引
+        df.reset_index(inplace=True)
+        
+        # 转换列名
+        df.columns = [c.lower().replace(' ', '_') for c in df.columns]
+        
+        # 转换日期
+        df['dt'] = pd.to_datetime(df['date'] if 'date' in df.columns else df['datetime'])
+        df['dt'] = df['dt'].dt.tz_localize(None)
+        
+        # 确保列名正确
+        column_mapping = {
+            'open': 'open',
+            'high': 'high',
+            'low': 'low',
+            'close': 'close',
+            'volume': 'vol'
+        }
+        df.rename(columns=column_mapping, inplace=True)
+        
+        # 添加必要列
+        df['symbol'] = symbol
+        df['amount'] = df['vol'] * df['close']
+        
+        print(f"✓ 成功获取 {len(df)} 条数据")
+        print(f"  日期范围: {df['dt'].min().strftime('%Y-%m-%d')} 至 {df['dt'].max().strftime('%Y-%m-%d')}")
+        print(f"  价格范围: {df['low'].min():.2f} - {df['high'].max():.2f}")
+        print(f"\n数据预览:")
+        print(df[['dt', 'open', 'high', 'low', 'close', 'vol']].head())
+        
+        return df
+        
+    except Exception as e:
+        print(f"✗ 获取失败: {e}")
+        import traceback
+        traceback.print_exc()
+        return None
+
+
+def analyze_and_plot(df, symbol="603259", name="药明康德"):
+    """进行缠论分析并生成图表"""
+    print(f"\n{'='*60}")
+    print(f"缠论分析: {name} ({symbol})")
+    print(f"{'='*60}\n")
+    
+    # 转换数据
+    print("步骤1: 转换数据格式...")
+    bars = format_standard_kline(df, freq=Freq.D)
+    print(f"✓ 共 {len(bars)} 根K线")
+    
+    # 缠论分析
+    print("\n步骤2: 进行缠论分析...")
+    czsc_obj = CZSC(bars, max_bi_num=1000)
+    print(f"✓ 分型数量: {len(czsc_obj.fx_list)}")
+    print(f"✓ 笔数量: {len(czsc_obj.bi_list)}")
+    
+    # 准备绘图数据
+    print("\n步骤3: 准备绘图数据...")
+    kline_data = [{
+        "dt": bar.dt,
+        "open": bar.open,
+        "close": bar.close,
+        "high": bar.high,
+        "low": bar.low,
+        "vol": bar.vol
+    } for bar in bars]
+    
+    fx_data = [{"dt": fx.dt, "fx": fx.fx, "fx_mark": fx.mark.value} 
+               for fx in czsc_obj.fx_list]
+    
+    bi_data = []
+    for bi in czsc_obj.bi_list:
+        bi_data.append({"dt": bi.fx_a.dt, "bi": bi.fx_a.fx})
+        bi_data.append({"dt": bi.fx_b.dt, "bi": bi.fx_b.fx})
+    
+    # 生成图表
+    print("\n步骤4: 生成图表...")
+    chart = kline_pro(
+        kline=kline_data,
+        fx=fx_data,
+        bi=bi_data,
+        title=f"{name} ({symbol}) 缠论分析 - 真实数据",
+        t_seq=[5, 10, 20],
+        width="1400px",
+        height="700px"
+    )
+    
+    # 保存
+    output_file = f"{symbol.replace('.', '_')}_{name}_真实数据缠论分析.html"
+    chart.render(output_file)
+    print(f"✓ 图表已保存: {output_file}")
+    
+    # 统计
+    print(f"\n{'='*60}")
+    print("分析统计")
+    print(f"{'='*60}")
+    print(f"股票: {name} ({symbol})")
+    print(f"K线数: {len(bars)}")
+    print(f"分型数: {len(czsc_obj.fx_list)}")
+    print(f"笔数: {len(czsc_obj.bi_list)}")
+    print(f"文件: {output_file}")
+    print(f"{'='*60}\n")
+    
+    return czsc_obj, output_file
+
+
+if __name__ == "__main__":
+    print("="*60)
+    print("股票缠论分析 - 使用雅虎财经真实数据")
+    print("="*60)
+    
+    # 药明康德 (上海股票代码.SS)
+    symbol = "603259.SS"
+    name = "药明康德"
+    days = 90  # 近3个月
+    
+    # 获取数据
+    df = get_stock_data(symbol, name, days)
+    
+    if df is not None:
+        # 分析并生成图表
+        analyze_and_plot(df, symbol, name)
+    else:
+        print("\n✗ 数据获取失败，请检查网络连接或股票代码")

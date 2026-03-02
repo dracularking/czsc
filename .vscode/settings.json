@@ -1,23 +1,28 @@
 {
-    "python.defaultInterpreterPath": ".venv/Scripts/python.exe",
-    "python.analysis.autoImportCompletions": true,
-    "python.analysis.indexing": true,
-    "python.analysis.typeCheckingMode": "basic",
-    "python.analysis.autoSearchPaths": true,
-    "python.analysis.extraPaths": [
-        "."
-    ],
-    "files.exclude": {
-        "**/__pycache__": true,
-        "**/*.pyc": true,
-        ".pytest_cache": true,
-        ".mypy_cache": true,
-        "**/node_modules": true
-    },
-    "python.testing.pytestEnabled": true,
-    "python.testing.pytestArgs": [
-        "test"
-    ],
-    "python.testing.unittestEnabled": false,
-    "liveServer.settings.port": 5502
+  // 注意：由于 VSCode Python 扩展的 PET 工具问题，
+  // 请使用 Ctrl+Shift+P -> Python: Select Interpreter 手动选择解释器
+  // "python.defaultInterpreterPath": "h:/codespace/python/stock/czsc/.venv/Scripts/python.exe",
+  
+  // 启用自动发现虚拟环境
+  "python.terminal.activateEnvironment": true,
+  "python.analysis.autoImportCompletions": true,
+  "python.analysis.indexing": true,
+  "python.analysis.typeCheckingMode": "basic",
+  "python.analysis.autoSearchPaths": true,
+  "python.analysis.extraPaths": [
+    "."
+  ],
+  "files.exclude": {
+    "**/__pycache__": true,
+    "**/*.pyc": true,
+    ".pytest_cache": true,
+    ".mypy_cache": true,
+    "**/node_modules": true
+  },
+  "python.testing.pytestEnabled": true,
+  "python.testing.pytestArgs": [
+    "test"
+  ],
+  "python.testing.unittestEnabled": false,
+  "liveServer.settings.port": 5502
 }
