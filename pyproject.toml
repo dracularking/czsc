@@ -75,6 +75,7 @@ dependencies = [
     "cryptography",
     "pytz",
     "fonttools>=4.61.0",
+    "polars>=0.20.0",
 ]
 
 [[tool.uv.index]]
@@ -137,7 +138,7 @@ path = "czsc/__init__.py"
 testpaths = ["test"]
 python_files = ["test_*.py"]
 python_functions = ["test_*"]
-addopts = "--tb=short -v"
+addopts = "--tb=short -v -s --log-cli-level=INFO"
 filterwarnings = [
     "ignore::DeprecationWarning",
     "ignore::PendingDeprecationWarning",

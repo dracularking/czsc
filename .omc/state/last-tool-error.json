@@ -1,0 +1,7 @@
+{
+  "tool_name": "Bash",
+  "tool_input_preview": "{\"command\":\"git merge master\",\"description\":\"Merge master into scienceb branch\"}",
+  "error": "Exit code 1\nAuto-merging .vscode/settings.json\nCONFLICT (content): Merge conflict in .vscode/settings.json\nAuto-merging czsc/__init__.py\nCONFLICT (content): Merge conflict in czsc/__init__.py\nAuto-merging czsc/core.py\nCONFLICT (content): Merge conflict in czsc/core.py\nCONFLICT (modify/delete): czsc/py/weight_backtest.py deleted in master and modified in HEAD.  Version HEAD of czsc/py/weight_backtest.py left in tree.\nAutomatic merge failed; fix conflicts and then commit the result.",
+  "timestamp": "2026-03-13T00:40:41.306Z",
+  "retry_count": 1
+}
