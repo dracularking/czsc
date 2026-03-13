@@ -1,0 +1,10 @@
+{
+  "active": true,
+  "skill_name": "plan",
+  "session_id": "4d62f78a-3c44-4bf8-9c47-17a1df0efa7b",
+  "started_at": "2026-03-13T01:13:26.937Z",
+  "last_checked_at": "2026-03-13T01:22:40.999Z",
+  "reinforcement_count": 2,
+  "max_reinforcements": 5,
+  "stale_ttl_ms": 900000
+}

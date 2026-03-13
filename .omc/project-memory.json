@@ -1,0 +1,190 @@
+{
+  "version": "1.0.0",
+  "lastScanned": 1773362738857,
+  "projectRoot": "h:\\codespace\\python\\stock\\czsc",
+  "techStack": {
+    "languages": [
+      {
+        "name": "Python",
+        "version": null,
+        "confidence": "high",
+        "markers": [
+          "pyproject.toml",
+          "requirements.txt"
+        ]
+      }
+    ],
+    "frameworks": [
+      {
+        "name": "pytest",
+        "version": null,
+        "category": "testing"
+      }
+    ],
+    "packageManager": "pip",
+    "runtime": null
+  },
+  "build": {
+    "buildCommand": null,
+    "testCommand": "pytest",
+    "lintCommand": "ruff check",
+    "devCommand": null,
+    "scripts": {}
+  },
+  "conventions": {
+    "namingStyle": null,
+    "importStyle": null,
+    "testPattern": null,
+    "fileOrganization": null
+  },
+  "structure": {
+    "isMonorepo": false,
+    "workspaces": [],
+    "mainDirectories": [
+      "docs",
+      "examples",
+      "test"
+    ],
+    "gitBranches": {
+      "defaultBranch": "master",
+      "branchingStrategy": null
+    }
+  },
+  "customNotes": [],
+  "directoryMap": {
+    "akshare_cache": {
+      "path": "akshare_cache",
+      "purpose": null,
+      "fileCount": 0,
+      "lastAccessed": 1773362738722,
+      "keyFiles": []
+    },
+    "czsc": {
+      "path": "czsc",
+      "purpose": null,
+      "fileCount": 15,
+      "lastAccessed": 1773362738723,
+      "keyFiles": [
+        "aphorism.py",
+        "aphorism.pyi",
+        "core.py",
+        "core.pyi",
+        "eda.py"
+      ]
+    },
+    "docs": {
+      "path": "docs",
+      "purpose": "Documentation",
+      "fileCount": 13,
+      "lastAccessed": 1773362738724,
+      "keyFiles": [
+        "CZSC-1.0.X版本路线图.md",
+        "make.bat",
+        "Makefile",
+        "README.md",
+        "REFACTORING_REPORT.md"
+      ]
+    },
+    "examples": {
+      "path": "examples",
+      "purpose": "Example code",
+      "fileCount": 11,
+      "lastAccessed": 1773362738725,
+      "keyFiles": [
+        "get_real_stock_data.py",
+        "stock_analysis_real_data.py",
+        "stock_chan_analysis_demo.py",
+        "stock_config.py",
+        "test_data_source.py"
+      ]
+    },
+    "html": {
+      "path": "html",
+      "purpose": null,
+      "fileCount": 3,
+      "lastAccessed": 1773362738725,
+      "keyFiles": [
+        "000001_平安银行_缠论分析.html",
+        "603259_SS_药明康德_真实数据缠论分析.html",
+        "9988_HK_阿里巴巴_真实数据缠论分析.html"
+      ]
+    },
+    "meituan_cache": {
+      "path": "meituan_cache",
+      "purpose": null,
+      "fileCount": 0,
+      "lastAccessed": 1773362738726,
+      "keyFiles": []
+    },
+    "test": {
+      "path": "test",
+      "purpose": "Test files",
+      "fileCount": 38,
+      "lastAccessed": 1773362738727,
+      "keyFiles": [
+        "test_analyze.py",
+        "test_analyze_boundary.py",
+        "test_backtest_report.py",
+        "test_bar_generator.py",
+        "test_calendar.py"
+      ]
+    }
+  },
+  "hotPaths": [
+    {
+      "path": ".vscode\\settings.json",
+      "accessCount": 10,
+      "lastAccessed": 1773364638315,
+      "type": "file"
+    },
+    {
+      "path": "README.md",
+      "accessCount": 1,
+      "lastAccessed": 1773364419346,
+      "type": "file"
+    },
+    {
+      "path": "",
+      "accessCount": 1,
+      "lastAccessed": 1773364436301,
+      "type": "directory"
+    },
+    {
+      "path": "czsc\\__init__.py",
+      "accessCount": 1,
+      "lastAccessed": 1773364448512,
+      "type": "file"
+    },
+    {
+      "path": "czsc\\core.py",
+      "accessCount": 1,
+      "lastAccessed": 1773364490404,
+      "type": "file"
+    },
+    {
+      "path": "czsc\\strategies.py",
+      "accessCount": 1,
+      "lastAccessed": 1773364490463,
+      "type": "file"
+    },
+    {
+      "path": "czsc\\eda.py",
+      "accessCount": 1,
+      "lastAccessed": 1773364490614,
+      "type": "file"
+    },
+    {
+      "path": "docs\\项目使用指南.md",
+      "accessCount": 1,
+      "lastAccessed": 1773364514896,
+      "type": "file"
+    },
+    {
+      "path": "docs\\项目概述.md",
+      "accessCount": 1,
+      "lastAccessed": 1773364935093,
+      "type": "file"
+    }
+  ],
+  "userDirectives": []
+}
