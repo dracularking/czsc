@@ -1,0 +1,10 @@
+{
+  "active": true,
+  "skill_name": "using-superpowers",
+  "session_id": "c612f84b-cd08-47fb-882f-0f61a09bdf1e",
+  "started_at": "2026-03-14T02:44:14.296Z",
+  "last_checked_at": "2026-03-14T02:45:26.076Z",
+  "reinforcement_count": 1,
+  "max_reinforcements": 3,
+  "stale_ttl_ms": 300000
+}

@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "lastScanned": 1773362738857,
+  "lastScanned": 1773453522195,
   "projectRoot": "h:\\codespace\\python\\stock\\czsc",
   "techStack": {
     "languages": [
@@ -56,14 +56,14 @@
       "path": "akshare_cache",
       "purpose": null,
       "fileCount": 0,
-      "lastAccessed": 1773362738722,
+      "lastAccessed": 1773453522121,
       "keyFiles": []
     },
     "czsc": {
       "path": "czsc",
       "purpose": null,
       "fileCount": 15,
-      "lastAccessed": 1773362738723,
+      "lastAccessed": 1773453522122,
       "keyFiles": [
         "aphorism.py",
         "aphorism.pyi",
@@ -75,8 +75,8 @@
     "docs": {
       "path": "docs",
       "purpose": "Documentation",
-      "fileCount": 13,
-      "lastAccessed": 1773362738724,
+      "fileCount": 14,
+      "lastAccessed": 1773453522124,
       "keyFiles": [
         "CZSC-1.0.X版本路线图.md",
         "make.bat",
@@ -89,7 +89,7 @@
       "path": "examples",
       "purpose": "Example code",
       "fileCount": 11,
-      "lastAccessed": 1773362738725,
+      "lastAccessed": 1773453522125,
       "keyFiles": [
         "get_real_stock_data.py",
         "stock_analysis_real_data.py",
@@ -102,7 +102,7 @@
       "path": "html",
       "purpose": null,
       "fileCount": 3,
-      "lastAccessed": 1773362738725,
+      "lastAccessed": 1773453522125,
       "keyFiles": [
         "000001_平安银行_缠论分析.html",
         "603259_SS_药明康德_真实数据缠论分析.html",
@@ -113,14 +113,14 @@
       "path": "meituan_cache",
       "purpose": null,
       "fileCount": 0,
-      "lastAccessed": 1773362738726,
+      "lastAccessed": 1773453522125,
       "keyFiles": []
     },
     "test": {
       "path": "test",
       "purpose": "Test files",
       "fileCount": 38,
-      "lastAccessed": 1773362738727,
+      "lastAccessed": 1773453522126,
       "keyFiles": [
         "test_analyze.py",
         "test_analyze_boundary.py",
@@ -128,62 +128,59 @@
         "test_bar_generator.py",
         "test_calendar.py"
       ]
+    },
+    "web_app": {
+      "path": "web_app",
+      "purpose": null,
+      "fileCount": 1,
+      "lastAccessed": 1773453522126,
+      "keyFiles": [
+        "app.py"
+      ]
     }
   },
   "hotPaths": [
     {
-      "path": ".vscode\\settings.json",
-      "accessCount": 10,
-      "lastAccessed": 1773364638315,
+      "path": "C:\\Users\\ross\\.claude\\CLAUDE.md",
+      "accessCount": 4,
+      "lastAccessed": 1773455842716,
       "type": "file"
     },
     {
-      "path": "README.md",
-      "accessCount": 1,
-      "lastAccessed": 1773364419346,
+      "path": "C:\\Users\\ross\\.claude\\.env",
+      "accessCount": 4,
+      "lastAccessed": 1773457083298,
       "type": "file"
     },
     {
-      "path": "",
+      "path": "C:\\Users\\ross\\.claude\\start-claude.bat",
+      "accessCount": 3,
+      "lastAccessed": 1773456695787,
+      "type": "file"
+    },
+    {
+      "path": "web_app\\app.py",
+      "accessCount": 2,
+      "lastAccessed": 1773454883807,
+      "type": "file"
+    },
+    {
+      "path": "C:\\Users\\ross\\AppData\\Roaming\\Code\\User\\settings.json",
+      "accessCount": 2,
+      "lastAccessed": 1773457278262,
+      "type": "file"
+    },
+    {
+      "path": ".claude\\config.json",
       "accessCount": 1,
-      "lastAccessed": 1773364436301,
+      "lastAccessed": 1773455388352,
+      "type": "file"
+    },
+    {
+      "path": "C:\\Users\\ross\\AppData\\Roaming",
+      "accessCount": 1,
+      "lastAccessed": 1773457173831,
       "type": "directory"
-    },
-    {
-      "path": "czsc\\__init__.py",
-      "accessCount": 1,
-      "lastAccessed": 1773364448512,
-      "type": "file"
-    },
-    {
-      "path": "czsc\\core.py",
-      "accessCount": 1,
-      "lastAccessed": 1773364490404,
-      "type": "file"
-    },
-    {
-      "path": "czsc\\strategies.py",
-      "accessCount": 1,
-      "lastAccessed": 1773364490463,
-      "type": "file"
-    },
-    {
-      "path": "czsc\\eda.py",
-      "accessCount": 1,
-      "lastAccessed": 1773364490614,
-      "type": "file"
-    },
-    {
-      "path": "docs\\项目使用指南.md",
-      "accessCount": 1,
-      "lastAccessed": 1773364514896,
-      "type": "file"
-    },
-    {
-      "path": "docs\\项目概述.md",
-      "accessCount": 1,
-      "lastAccessed": 1773364935093,
-      "type": "file"
     }
   ],
   "userDirectives": []
