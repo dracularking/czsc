@@ -16,6 +16,12 @@ import pandas as pd
 import warnings
 import time
 from contextlib import contextmanager
+from pathlib import Path
+
+
+ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
 
 # Hide noisy dependency mismatch warning from local requests installation
 warnings.filterwarnings(
@@ -53,13 +59,19 @@ def without_proxy_env():
         "HTTP_PROXY",
         "HTTPS_PROXY",
         "ALL_PROXY",
+        "NO_PROXY",
+        "WSS_PROXY",
         "http_proxy",
         "https_proxy",
         "all_proxy",
+        "no_proxy",
+        "wss_proxy",
     ]
     old_values = {k: os.environ.get(k) for k in proxy_vars}
     for key in proxy_vars:
         os.environ.pop(key, None)
+    os.environ["NO_PROXY"] = "*"
+    os.environ["no_proxy"] = "*"
     try:
         yield
     finally:
@@ -104,6 +116,70 @@ def _fetch_akshare_hk(symbol: str, hk_symbol: str, sdt: str, edt: str) -> pd.Dat
     df["symbol"] = symbol
     if "amount" not in df.columns:
         df["amount"] = df["vol"] * df["close"]
+    return df
+
+
+def _fetch_eastmoney_hk_direct(symbol: str, hk_symbol: str, sdt: str, edt: str) -> pd.DataFrame:
+    """Fetch HK daily bars from EastMoney without using environment proxies.
+
+    akshare uses the same endpoint, but in some local environments HTTPS is
+    forced through a broken proxy. The HTTP endpoint is sufficient for public
+    historical K-line data and lets us bypass proxy settings with trust_env=False.
+    """
+    import requests
+
+    session = requests.Session()
+    session.trust_env = False
+    response = session.get(
+        "http://push2his.eastmoney.com/api/qt/stock/kline/get",
+        params={
+            "secid": f"116.{hk_symbol}",
+            "fields1": "f1,f2,f3,f4,f5,f6",
+            "fields2": "f51,f52,f53,f54,f55,f56,f57,f58,f59,f60,f61",
+            "klt": "101",
+            "fqt": "0",
+            "end": "20500000",
+            "lmt": "1000000",
+        },
+        headers={
+            "User-Agent": "Mozilla/5.0",
+            "Referer": "https://quote.eastmoney.com/",
+            "Accept": "application/json,text/plain,*/*",
+        },
+        timeout=30,
+    )
+    response.raise_for_status()
+    payload = response.json()
+    klines = ((payload.get("data") or {}).get("klines") or [])
+    if not klines:
+        raise RuntimeError(f"EastMoney 港股无数据: {symbol}")
+
+    rows = []
+    sdt_ts = pd.to_datetime(sdt)
+    edt_ts = pd.to_datetime(edt)
+    for item in klines:
+        parts = item.split(",")
+        if len(parts) < 7:
+            continue
+        dt = pd.to_datetime(parts[0])
+        if dt < sdt_ts or dt > edt_ts:
+            continue
+        rows.append(
+            {
+                "dt": dt,
+                "open": float(parts[1]),
+                "close": float(parts[2]),
+                "high": float(parts[3]),
+                "low": float(parts[4]),
+                "vol": float(parts[5]),
+                "amount": float(parts[6]),
+                "symbol": symbol,
+            }
+        )
+
+    df = pd.DataFrame(rows)
+    if df.empty:
+        raise RuntimeError(f"EastMoney 港股无日期区间数据: {symbol}, {sdt}-{edt}")
     return df
 
 
@@ -163,6 +239,10 @@ def get_real_kline_df(symbol: str, sdt: str, edt: str) -> pd.DataFrame:
                             return _fetch_akshare_hk(symbol, hk_symbol, sdt, edt)
                     except Exception as retry_error:
                         errors.append(f"akshare 港股关闭代理后仍失败: {retry_error}")
+                try:
+                    return _fetch_eastmoney_hk_direct(symbol, hk_symbol, sdt, edt)
+                except Exception as direct_error:
+                    errors.append(f"EastMoney 港股直连失败: {direct_error}")
         else:
             errors.append(f"港股代码格式错误: {symbol}")
 
