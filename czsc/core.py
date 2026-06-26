@@ -11,6 +11,9 @@ def check_rs_czsc() -> Tuple[bool, Optional[str]]:
     """
     try:
         import rs_czsc
+        for name in ("Operate", "Freq", "Mark", "Direction", "CZSC", "format_standard_kline"):
+            if not hasattr(rs_czsc, name):
+                return False, f"Missing symbol: {name}"
         # 尝试获取版本信息
         version = getattr(rs_czsc, '__version__', 'unknown')
         return True, version
@@ -35,7 +38,12 @@ if os.getenv('CZSC_USE_PYTHON', False) or not installed:
         # 数据对象
         RawBar, NewBar, FX, BI, FakeBI, ZS, Signal, Event, Position
     )
-    from rs_czsc import WeightBacktest
+
+    class WeightBacktest:
+        """Placeholder used when optional rs_czsc is not installed."""
+
+        def __init__(self, *args, **kwargs):
+            raise ImportError("WeightBacktest requires optional dependency rs_czsc. Please install rs_czsc first.")
 else:
     # 导入已经用 rust 复现的函数
     from rs_czsc import (

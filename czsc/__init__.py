@@ -4,16 +4,11 @@ author: zengbin93
 email: zeng_bin8888@163.com
 create_dt: 2019/10/29 15:01
 """
-from rs_czsc import (
-    daily_performance,
-    top_drawdowns,
-    WeightBacktest,
-)
-
 from czsc import envs
 from czsc import utils
 from czsc import traders
-from czsc.core import CZSC, Freq, Operate, Direction, Signal, Event, RawBar, NewBar, Position, ZS, format_standard_kline
+from czsc.core import CZSC, Freq, Operate, Direction, Signal, Event, RawBar, NewBar, Position, ZS, WeightBacktest, format_standard_kline
+from czsc.utils.analysis.stats import daily_performance, top_drawdowns
 from czsc.utils import ta
 from czsc.traders import (
     CzscTrader,

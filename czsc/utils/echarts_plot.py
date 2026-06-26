@@ -58,6 +58,7 @@ def kline_pro(
     title_opts = opts.TitleOpts(
         title=title,
         pos_top="1%",
+        pos_left="center",
         title_textstyle_opts=opts.TextStyleOpts(color=up_color, font_size=20),
         subtitle_textstyle_opts=opts.TextStyleOpts(color=down_color, font_size=12),
     )
@@ -73,8 +74,9 @@ def kline_pro(
 
     legend_opts = opts.LegendOpts(
         is_show=True,
-        pos_top="1%",
-        pos_left="30%",
+        pos_top="6%",
+        pos_left="2%",
+        pos_right="2%",
         item_width=14,
         item_height=8,
         textstyle_opts=opts.TextStyleOpts(font_size=12, color="#0e99e2"),
@@ -356,6 +358,19 @@ def kline_pro(
         chart_xd.set_global_opts(xaxis_opts=grid0_xaxis_opts, legend_opts=legend_not_show_opts)
         chart_k = chart_k.overlap(chart_xd)
 
+    # 图例默认勾选：仅显示 BI，其余常见叠加项默认隐藏
+    selected_map = {"Kline": True, "FX": False, "BI": True}
+    for t in t_seq:
+        selected_map[f"MA{t}"] = False
+    if xd:
+        selected_map["XD"] = False
+
+    legend_conf = chart_k.options.get("legend")
+    if isinstance(legend_conf, list) and legend_conf:
+        legend_conf[0]["selected"] = selected_map
+    elif isinstance(legend_conf, dict):
+        legend_conf["selected"] = selected_map
+
     # 成交量图
     # ------------------------------------------------------------------------------------------------------------------
     chart_vol = Bar()
@@ -414,7 +429,7 @@ def kline_pro(
 
     chart_macd = chart_macd.overlap(line)
 
-    grid0_opts = opts.GridOpts(pos_left="0%", pos_right="1%", pos_top="12%", height="58%")
+    grid0_opts = opts.GridOpts(pos_left="0%", pos_right="1%", pos_top="16%", height="54%")
     grid1_opts = opts.GridOpts(pos_left="0%", pos_right="1%", pos_top="74%", height="8%")
     grid2_opts = opts.GridOpts(pos_left="0%", pos_right="1%", pos_top="86%", height="10%")
 
