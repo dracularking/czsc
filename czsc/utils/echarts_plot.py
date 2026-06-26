@@ -9,8 +9,24 @@ from pyecharts.charts import HeatMap, Kline, Line, Bar, Scatter, Grid, Boxplot
 from pyecharts.commons.utils import JsCode
 from typing import TYPE_CHECKING, List, Optional
 import numpy as np
-from czsc.py.enum import Operate
-from .ta import SMA, MACD
+from czsc._native import Operate
+from czsc.utils.plotting._macd import compute_macd
+
+
+def SMA(close, timeperiod=5):
+    """Simple moving average compatible with the legacy echarts renderer."""
+    close = np.asarray(close, dtype=np.double)
+    if len(close) == 0:
+        return np.array([], dtype=np.double)
+
+    res = np.full(len(close), np.nan, dtype=np.double)
+    for i in range(timeperiod - 1, len(close)):
+        res[i] = close[i - timeperiod + 1 : i + 1].mean()
+    return np.round(res, 4)
+
+
+def MACD(close, fastperiod=12, slowperiod=26, signalperiod=9):
+    return compute_macd(np.asarray(close, dtype=np.double), fastperiod, slowperiod, signalperiod)
 
 if TYPE_CHECKING:
     from lightweight_charts import Chart
