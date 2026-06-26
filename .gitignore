@@ -21,10 +21,12 @@ develop-eggs/
 dist/
 downloads/
 eggs/
+diagrams/*
 .eggs/
 lib/
 lib64/
 parts/
+*.DS*
 sdist/
 var/
 wheels/
@@ -33,6 +35,8 @@ wheels/
 *.egg
 output*
 MANIFEST
+human.md
+.playwright-mcp/*
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
@@ -117,3 +121,7 @@ venv.bak/
 *backtest_report*.html
 *backtest_report*.pdf
 test_auto_report.html
+
+# docs/examples 的运行产物（HTML 报告、parquet、Position JSON 等）
+docs/examples/_output/
+docs/examples/.DS_Store

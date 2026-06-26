@@ -1,23 +1,24 @@
-# -*- coding: utf-8 -*-
 """
 author: zengbin93
 email: zeng_bin8888@163.com
 create_dt: 2021/7/16 11:51
 """
 
-import os
-import time
-import json
-import shutil
 import hashlib
 import inspect
-import pandas as pd
+import json
+import os
+import shutil
+import time
 from pathlib import Path
-from typing import Any, Union, AnyStr
+from typing import Any, AnyStr
+
+import pandas as pd
 
 
 def _get_logger():
     from loguru import logger
+
     return logger
 
 
@@ -92,9 +93,12 @@ class DiskCache:
 
         if suffix == "pkl":
             import dill
-            res = dill.load(open(file, "rb"))
+
+            with open(file, "rb") as _f:
+                res = dill.load(_f)
         elif suffix == "json":
-            res = json.load(open(file, "r", encoding="utf-8"))
+            with open(file, encoding="utf-8") as _f:
+                res = json.load(_f)
         elif suffix == "txt":
             res = file.read_text(encoding="utf-8")
         elif suffix == "csv":
@@ -122,12 +126,15 @@ class DiskCache:
 
         if suffix == "pkl":
             import dill
-            dill.dump(v, open(file, "wb"))
+
+            with open(file, "wb") as _f:
+                dill.dump(v, _f)
 
         elif suffix == "json":
             if not isinstance(v, dict):
                 raise ValueError("suffix json only support dict")
-            json.dump(v, open(file, "w", encoding="utf-8"), ensure_ascii=False, indent=4)
+            with open(file, "w", encoding="utf-8") as _f:
+                json.dump(v, _f, ensure_ascii=False, indent=4)
 
         elif suffix == "txt":
             if not isinstance(v, str):
@@ -165,7 +172,7 @@ class DiskCache:
         Path.unlink(file) if Path.exists(file) else None
 
 
-def disk_cache(path: Union[AnyStr, Path] = home_path, suffix: str = "pkl", ttl: int = -1):
+def disk_cache(path: AnyStr | Path = home_path, suffix: str = "pkl", ttl: int = -1):
     """缓存装饰器，支持多种数据格式
 
     :param path: 缓存文件夹父路径，默认为 home_path，每个函数的缓存文件夹为 path/func_name
@@ -181,12 +188,12 @@ def disk_cache(path: Union[AnyStr, Path] = home_path, suffix: str = "pkl", ttl: 
             ttl1 = kwargs.pop("ttl", ttl)
 
             hash_str = f"{func.__name__}{args}{kwargs}"
-            
+
             try:
                 code_str = inspect.getsource(func)
             except OSError:
                 code_str = func.__name__
-            
+
             k = hashlib.md5((code_str + hash_str).encode("utf-8")).hexdigest().upper()[:8]
             k = f"{k}_{func.__name__}"
 
@@ -220,7 +227,7 @@ def clear_expired_cache(path, max_age: int = 3600 * 24 * 30):
             _get_logger().info(f"已删除过期缓存文件：{file}, 修改时间：{file_stat.st_mtime}，当前时间：{time.time()}")
 
 
-def clear_cache(path: Union[AnyStr, Path] = home_path, subs=None, recreate=False):
+def clear_cache(path: AnyStr | Path = home_path, subs=None, recreate=False):
     """清空缓存文件夹
 
     :param path: 缓存文件夹路径
